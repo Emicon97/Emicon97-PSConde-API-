@@ -57,7 +57,6 @@ class UsersController {
 
   public addAddress = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
-      console.log('entré')
       const userId: string = req.user._id;
       const address: string[] = req.body;
       const updateAddress: string[] = await this.userService.addAddress(userId, address);
