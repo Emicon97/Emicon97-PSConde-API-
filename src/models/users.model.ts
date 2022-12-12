@@ -25,6 +25,12 @@ class User {
 
   @prop({ ref: () => Purchase })
   public history: Purchase[];
+
+  @prop({ type: String })
+  public address: string[];
+
+  @prop({ type: String })
+  public phone: string[];
 }
 
 const UserModel = getModelForClass(User);

@@ -8,7 +8,7 @@ import userModel from '@models/users.model';
 const authMiddleware = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
     const Authorization = req.cookies['Authorization'] || (req.header('Authorization') ? req.header('Authorization').split('Bearer ')[1] : null);
-    console.log(req.headers)
+    
     if (Authorization) {
       const secretKey: string = SECRET_KEY;
       const verificationResponse = (verify(Authorization, secretKey)) as DataStoredInToken;

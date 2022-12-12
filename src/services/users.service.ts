@@ -38,11 +38,35 @@ class UserService {
 
     if (user === null) throw new Error('No encontramos sus datos.');
 
-    const updated = await userModel.findByIdAndUpdate(userId, { cart: cartData });
+    const updated = await userModel.findByIdAndUpdate(userId, { cart: cartData }, { new: true });
 
     if (updated) return updated;
 
     throw new Error('No se pudo conectar con el carrito de compras.');
+  }
+  
+  public async addAddress(userId: string, address: string[]): Promise<string[]> {
+    const user: User | null = await userModel.findById(userId);
+
+    if (user === null) throw new Error('No encontramos sus datos');
+
+    const updated = await userModel.findByIdAndUpdate(userId, { address }, { new: true });
+    
+    if (updated) return updated.address;
+
+    throw new Error('No se pudo agregar la diercción.');
+  }
+
+  public async addPhone(userId: string, phone: string[]): Promise<string[]> {
+    const user: User | null = await userModel.findById(userId);
+
+    if (user === null) throw new Error('No encontramos sus datos');
+
+    const updated = await userModel.findByIdAndUpdate(userId, { phone }, { new: true });
+    
+    if (updated) return updated.phone;
+
+    throw new Error('No se pudo agregar la diercción.');
   }
 
   public async updateUser(userId: string, userData: CreateUserDto): Promise<User> {
@@ -69,22 +93,6 @@ class UserService {
     if (!deleteUserById) throw new HttpException(409, "User doesn't exist");
 
     return deleteUserById;
-  }
-
-  public async cart(id: string, cart: Cart): Promise<User> {
-    const user: User | null = await userModel.findById(id);
-    if (user === null) throw new Error("No encontramos sus datos.");
-
-    const cartItems: Cart[] = user?.cart as Cart[];
-    for (let item of cartItems) {
-      if (item.title === cart.title ) {
-        const updated = await userModel.findByIdAndUpdate(id, { $pull: { cart } }, {new: true});
-        if (updated) return updated;
-      }
-    }
-    const added = await userModel.findByIdAndUpdate(id, { $push: { cart } }, {new: true});
-    if (added) return added;
-    throw new Error ('No se pudo conectar con el carrito de compras.');
   }
 }
 

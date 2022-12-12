@@ -10,7 +10,7 @@ class UsersController {
 
   public getUsers = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
-      if (req.user.type !== ('ADMIN' || 'MOD')) {
+      if (req.user.type !== 'ADMIN') {
         res.status(401).json({ message: 'No autorizado' });
       }
       const findAllUsersData: User[] = await this.userService.findAllUser();
@@ -50,6 +50,30 @@ class UsersController {
       const updateCart: User = await this.userService.AddToCart(userId, cartData);
 
       res.status(200).json({ data: updateCart, message: 'updated' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public addAddress = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      const userId: string = req.user._id;
+      const address: string[] = req.body;
+      const updateAddress: string[] = await this.userService.addAddress(userId, address);
+
+      res.status(200).json({ data: updateAddress, message: 'updated' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public addPhone = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      const userId: string = req.user._id;
+      const phone: string[] = req.body;
+      const updatePhone: string[] = await this.userService.addPhone(userId, phone);
+
+      res.status(200).json({ data: updatePhone, message: 'updated' });
     } catch (error) {
       next(error);
     }

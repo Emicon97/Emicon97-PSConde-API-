@@ -50,6 +50,9 @@ class ProductsController {
 
   public createProduct = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
+      if (req.user.type !== 'ADMIN' && req.user.type !== 'MOD') {
+        res.status(401).json({ message: 'No autorizado' });
+      }
       const productData: CreateProductDto = req.body;
       const createProductData: Product = await this.productService.createProduct(productData);
 
@@ -61,6 +64,9 @@ class ProductsController {
 
   public updateProduct = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
+      if (req.user.type !== 'ADMIN' && req.user.type !== 'MOD') {
+        res.status(401).json({ message: 'No autorizado' });
+      }
       const productId: string = req.params.id;
       const productData: CreateProductDto = req.body;
       const updateProductData: Product = await this.productService.updateProduct(productId, productData);
@@ -73,6 +79,9 @@ class ProductsController {
 
   public deleteProduct = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
+      if (req.user.type !== 'ADMIN' && req.user.type !== 'MOD') {
+        res.status(401).json({ message: 'No autorizado' });
+      }
       const productId: string = req.params.id;
       const deleteProductData: Product = await this.productService.deleteProduct(productId);
 
