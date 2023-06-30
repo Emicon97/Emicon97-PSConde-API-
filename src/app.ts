@@ -48,7 +48,7 @@ class App {
     if (this.env !== 'production') {
       set('debug', true);
     }
-    
+
     connect(dbConnection);
   }
 
@@ -56,12 +56,12 @@ class App {
     this.app.use(morgan(LOG_FORMAT, { stream }));
     this.app.use(cors({ origin: ORIGIN, credentials: CREDENTIALS }));
     // this.app.use((req, res, next) => {
-    //   res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
+    //   res.header('Access-Control-Allow-Origin', 'http://localhost:3000/*'); // update to match the domain you will make the request from
     //   res.header('Access-Control-Allow-Credentials', 'true');
     //   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, auth-token, refresh-token, id');
     //   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
     //   next();
-    // })
+    // });
     this.app.use(hpp());
     this.app.use(helmet());
     this.app.use(compression());

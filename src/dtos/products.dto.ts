@@ -14,7 +14,7 @@ export class CreateProductDto {
   public marca: string;
 
   @IsArray()
-  tags: string[];
+  public tags: string[];
 
   @IsNumber()
   public venta1: number;

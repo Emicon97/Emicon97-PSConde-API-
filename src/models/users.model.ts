@@ -1,5 +1,5 @@
 import { prop, getModelForClass, modelOptions, Passthrough } from '@typegoose/typegoose';
-import { Type } from '@/enums/userTypes.enum';
+import { Type, Types } from '@/enums/userTypes.enum';
 import { Purchase } from './purchases.model';
 import { Cart } from './../interfaces/cart.interface';
 
@@ -18,7 +18,7 @@ class User {
   public listaP: number;
 
   @prop({ type: String, enum: Type, default: 'CLIENTE' })
-  public type: Type;
+  public type: Types;
 
   @prop({ type: () => new Passthrough({ title: String, quantity: Number, unit_price: Number }, true) })
   public cart: Cart[];
@@ -30,7 +30,13 @@ class User {
   public address: string[];
 
   @prop({ type: String })
+  public availability: string[];
+
+  @prop({ type: String })
   public phone: string[];
+
+  @prop({ type: Number })
+  public cuit: number;
 }
 
 const UserModel = getModelForClass(User);

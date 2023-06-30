@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto } from '@dtos/users.dto';
+import { CreateUserDto, UpdateUserDto } from '@dtos/users.dto';
 import { User } from '@interfaces/users.interface';
 import userService from '@services/users.service';
 import { RequestWithUser } from './../interfaces/auth.interface';
@@ -55,34 +55,10 @@ class UsersController {
     }
   };
 
-  public addAddress = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  public updateUser = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const userId: string = req.user._id;
-      const address: string[] = req.body;
-      const updateAddress: string[] = await this.userService.addAddress(userId, address);
-
-      res.status(200).json({ data: updateAddress, message: 'updated' });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  public addPhone = async (req: RequestWithUser, res: Response, next: NextFunction) => {
-    try {
-      const userId: string = req.user._id;
-      const phone: string[] = req.body;
-      const updatePhone: string[] = await this.userService.addPhone(userId, phone);
-
-      res.status(200).json({ data: updatePhone, message: 'updated' });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  public updateUser = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const userId: string = req.params.id;
-      const userData: CreateUserDto = req.body;
+      const userData: UpdateUserDto = req.body;
       const updateUserData: User = await this.userService.updateUser(userId, userData);
 
       res.status(200).json({ data: updateUserData, message: 'updated' });

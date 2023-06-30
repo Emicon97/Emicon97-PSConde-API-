@@ -28,5 +28,5 @@ export const diacriticSensitiveRegex = (string: string): string => {
     .replace(/i|í|ì/gi, '[i,í,ì,I,Í,Ì]')
     .replace(/n|ñ/gi, '[n,N,ñ,Ñ]')
     .replace(/o|ó|ò/gi, '[o,ó,ò,O,Ó,Ò]')
-    .replace(/u|ú|ü|ù/gi, '[u,ú,ü,ù,U,Ú,Ü,Ù]')
+    .replace(/u|ú|ü|ù/gi, '[u,ú,ü,ù,U,Ú,Ü,Ù]');
 };

@@ -10,14 +10,14 @@ import { isEmpty } from '@utils/util';
 
 class AuthService {
   public async signup(userData: CreateUserDto): Promise<{ cookie: string; createUserData: User }> {
-    if (isEmpty(userData)) throw new HttpException(400, "No se ingresaron los datos de usuario.");
+    if (isEmpty(userData)) throw new HttpException(400, 'No se ingresaron los datos de usuario.');
 
     const findUser: User = await userModel.findOne({ email: userData.email });
     if (findUser) throw new HttpException(409, `El correo electrónico ${userData.email} ya se encuentra registrado.`);
 
     const hashedPassword = await hash(userData.password, 10);
     const createUserData: User = await userModel.create({ ...userData, password: hashedPassword });
-    
+
     const tokenData = this.createToken(createUserData);
     const cookie = this.createCookie(tokenData);
 
@@ -25,14 +25,14 @@ class AuthService {
   }
 
   public async login(userData: CreateUserDto): Promise<{ cookie: string; findUser: User }> {
-    if (isEmpty(userData)) throw new HttpException(400, "No se ingresaron los datos de usuario.");
+    if (isEmpty(userData)) throw new HttpException(400, 'No se ingresaron los datos de usuario.');
 
     const findUser: User = await userModel.findOne({ email: userData.email });
     if (!findUser) throw new HttpException(409, `No se encontró el correo electrónico ${userData.email}.`);
 
     const isPasswordMatching: boolean = await compare(userData.password, findUser.password);
-    if (!isPasswordMatching) throw new HttpException(409, "La contraseña no coincide.");
-    
+    if (!isPasswordMatching) throw new HttpException(409, 'La contraseña no coincide.');
+
     const tokenData = this.createToken(findUser);
     const cookie = this.createCookie(tokenData);
 
@@ -40,7 +40,7 @@ class AuthService {
   }
 
   public async logout(userData: User): Promise<User> {
-    if (isEmpty(userData)) throw new HttpException(400, "No se ingresaron los datos de usuario.");
+    if (isEmpty(userData)) throw new HttpException(400, 'No se ingresaron los datos de usuario.');
 
     const findUser: User = await userModel.findOne({ email: userData.email, password: userData.password });
     if (!findUser) throw new HttpException(409, `No se encontró el correo electrónico ${userData.email}.`);
